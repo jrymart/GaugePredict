@@ -1,11 +1,12 @@
 #!/bin/bash
-#SBATCH --job-name=gauge_download
-#SBATCH --output=logs/download_%A_%a.out
-#SBATCH --error=logs/download_%A_%a.err
-#SBATCH --time=04:00:00
-#SBATCH --mem=8G
+#SBATCH --job-name=uv-init
+#SBATCH --output=logs/setup_%j.log
+#SBATCH --qos=blanca-csdms
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
-#SBATCH --array=0-6
+#SBATCH --mem=16G
+#SBATCH --time=04:00:00
 #
 # GaugePredict Data Download - SLURM Submission Script
 #
