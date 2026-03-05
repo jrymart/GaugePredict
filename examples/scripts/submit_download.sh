@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=download-data
-#SBATCH --output=logs/download_%A_$a.log
+#SBATCH --output=logs/download_%A_%a.log
 #SBATCH --qos=blanca-csdms
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
@@ -36,7 +36,7 @@ set -e
 export UV_CACHE_DIR="/projects/joma0457/.uv_cache"
 export PATH="$HOME/.local/bin:$PATH"
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SCRIPT_DIR="${SLURM_SUBMIT_DIR}/examples/scripts"
 PROJECT_DIR=$SLURM_SUBMIT_DIR
 DATA_DIR="${PROJECT_DIR}/data"
 
