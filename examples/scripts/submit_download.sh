@@ -1,13 +1,13 @@
 #!/bin/bash
-#SBATCH --job-name=uv-init
-#SBATCH --output=logs/setup_%j.log
+#SBATCH --job-name=download-data
+#SBATCH --output=logs/download_%A_$a.log
 #SBATCH --qos=blanca-csdms
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
 #SBATCH --mem=16G
 #SBATCH --time=04:00:00
-#
+#SBATCH --array=0-6                       # Default to running all HUCs
 # GaugePredict Data Download - SLURM Submission Script
 #
 # This script submits download jobs as a SLURM array.
@@ -32,13 +32,15 @@
 #
 
 set -e
-
 # Get the directory where this script is located
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PROJECT_DIR="$(dirname "$(dirname "$SCRIPT_DIR")")"
+export UV_CACHE_DIR="/projects/joma0457/.uv_cache"
+export PATH="$HOME/.local/bin:$PATH"
 
-# Create logs directory if it doesn't exist
-mkdir -p "${SCRIPT_DIR}/logs"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_DIR=$SLURM_SUBMIT_DIR
+DATA_DIR="${PROJECT_DIR}/data"
+
+
 
 # Print job info
 echo "=========================================="
@@ -70,23 +72,19 @@ cd "${PROJECT_DIR}"
 # conda activate gaugepredict
 
 # Activate virtual environment if it exists
-if [ -d "${PROJECT_DIR}/.venv" ]; then
-    echo "Activating virtual environment..."
-    source "${PROJECT_DIR}/.venv/bin/activate"
-fi
 
 # Check if running with --all flag
 if [[ "$1" == "--all" ]]; then
     echo "Running all HUC codes in single job..."
-    python "${SCRIPT_DIR}/downloader_slurm.py" --all --skip-target
+    uv run "${SCRIPT_DIR}/downloader_slurm.py" --all --skip-target --data_dir "${DATA_DIR}"
 else
     # Run for specific array index
     echo "Processing array index: ${SLURM_ARRAY_TASK_ID}"
-    python "${SCRIPT_DIR}/downloader_slurm.py" \
+    uv run "${SCRIPT_DIR}/downloader_slurm.py" \
         --array-index "${SLURM_ARRAY_TASK_ID}" \
-        --skip-target
+        --skip-target \
+        --data_dir "${DATA_DIR}"
 fi
-uv run examples/scripts/downloader_slurm.py --data_dir = data
 
 echo "=========================================="
 echo "Finished at: $(date)"
