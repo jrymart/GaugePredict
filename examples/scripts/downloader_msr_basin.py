@@ -2,7 +2,7 @@
 GaugePredict Data Downloader - Mississippi River Basin
 Download and process USGS gauge data for the Mississippi River Basin.
 """
-
+Error creating .sprite file: open .sprite: is a directory
 import numpy as np
 import pandas as pd
 import geopandas as gpd

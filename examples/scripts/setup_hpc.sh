@@ -43,9 +43,9 @@ uv run python <<EOF
 import os
 import sys
 try:
-    import neural_spd
-    from neural_spd import config
-    print(f"✅ Success: 'neural_spd' imported from {neural_spd.__file__}")
+    import GaugePredict
+    from GaugePredict import downloader, predict
+    print(f"✅ Success: 'GaugePredict' imported from {GaugePredict.__file__}")
     print(f"✅ Config Check: Headless mode is {config.is_headless()}")
 except ImportError as e:
     print(f"❌ Error: Could not import package. Check your src/ layout. Detail: {e}")
