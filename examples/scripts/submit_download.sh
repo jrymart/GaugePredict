@@ -83,7 +83,7 @@ else
     uv run "${SCRIPT_DIR}/downloader_slurm.py" \
         --array-index "${SLURM_ARRAY_TASK_ID}" \
         --skip-target \
-        --data_dir "${DATA_DIR}"
+        --data-dir "${DATA_DIR}"
 fi
 
 echo "=========================================="
