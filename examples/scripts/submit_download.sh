@@ -38,7 +38,7 @@ export PATH="$HOME/.local/bin:$PATH"
 
 SCRIPT_DIR="${SLURM_SUBMIT_DIR}/examples/scripts"
 PROJECT_DIR=$SLURM_SUBMIT_DIR
-DATA_DIR="${PROJECT_DIR}/data"
+DATA_DIR="${PROJECT_DIR}/data/${SLURM_ARRAY_TASK_ID}"
 
 
 
